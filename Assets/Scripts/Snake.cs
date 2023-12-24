@@ -12,6 +12,7 @@ public class Snake : MonoBehaviour
     public PowerUp powerUpPrefabScoreBoost;
     public PowerUp powerUpPrefabSpeedUp;
     public BoxCollider2D gridArea;
+    public ScoreController score;
 
 
 
@@ -234,33 +235,39 @@ public class Snake : MonoBehaviour
                 Debug.Log("Obstacle has been hit");
                 ResetState();
             }
-        }else if (collision.tag == "Score")
+        }
+        else if (collision.tag == "Score")
         {
             Debug.Log("Score Obj has been hit");
             Destroy(collision.gameObject);
-           
             ActivateScoreBoost();
-          
+
         }
 
         else if (collision.tag == "Speed")
         {
             Debug.Log("Speed Obj has been hit");
             Destroy(collision.gameObject); ;
-         
             ActivateSpeedUp();
-            
+
         }
         else if (collision.tag == "Shield")
         {
             Debug.Log("Shield obj has been hit");
             Destroy(collision.gameObject);
-          
             ActivateShield();
-
-            
         }
+        if (collision.tag == "Food")
+        {
+            if (!isScoreBoostActive)
+            {
+                score.IncreaseScore(100);
+            }
+            else
+            {
+                score.IncreaseScore(200);
+            }
+        }
+
     }
-
-
 }

@@ -6,7 +6,6 @@ public class Food : MonoBehaviour
 {
     public BoxCollider2D gridArea;
     public Snake snake;
- 
 
     private void Start()
     {
