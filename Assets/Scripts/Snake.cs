@@ -40,7 +40,7 @@ public class Snake : MonoBehaviour
             if (Time.time > nextPowerUpTime)
             {
             SpawnPowerUp();
-            nextPowerUpTime = Time.time + Random.Range(5.0f, 10.0f);
+            nextPowerUpTime = Time.time + Random.Range(10.0f, 20.0f);
             }
 
 
@@ -125,6 +125,18 @@ public class Snake : MonoBehaviour
         segment.position = _segments[_segments.Count - 1].position;
 
         _segments.Add(segment);
+    }
+
+    public void ReduceSize()
+    {
+        if (_segments.Count > 1) { 
+            // Get the last segment and destroy it
+        Transform lastSegment = _segments[_segments.Count - 1];
+        Destroy(lastSegment.gameObject);
+
+        // Remove the last segment from the list
+        _segments.RemoveAt(_segments.Count - 1);
+        }
     }
 
     private void ResetState()
@@ -268,6 +280,11 @@ public class Snake : MonoBehaviour
                 score.IncreaseScore(200);
             }
         }
+            if(collision.tag == "ToxicFood")
+            {
+                score.DecreaseScore(100);
+            }
+        
 
     }
 }

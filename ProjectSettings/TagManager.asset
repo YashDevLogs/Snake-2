@@ -10,6 +10,7 @@ TagManager:
   - SnakeBody
   - Score
   - Speed
+  - ToxicFood
   layers:
   - Default
   - TransparentFX

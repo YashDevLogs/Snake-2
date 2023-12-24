@@ -26,6 +26,12 @@ public class ScoreController : MonoBehaviour
         RefreshUI();
     }
 
+    public void DecreaseScore(int decrement)
+    {
+        score -= decrement;
+        RefreshUI();
+    }
+
     private void RefreshUI()
     {
         scoreText.text = "Score: " + score;
