@@ -2,15 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Food : MonoBehaviour
+public class Shield : MonoBehaviour
 {
     public BoxCollider2D gridArea;
+    public bool isShieldActive;
+    private float powerUpDuration = 7f;
     public Snake snake;
- 
-
     private void Start()
     {
         RandomizePosition();
+    }
+
+    public void ActivateShield()
+    {
+        isShieldActive = true;
+        Debug.Log("Shield is active");
+        StartCoroutine(DeactivateShield());
+    }
+
+    private IEnumerator DeactivateShield()
+    {
+        yield return new WaitForSeconds(powerUpDuration);
+        isShieldActive = false;
+        Debug.Log("Shield is inactive");
     }
 
     private void RandomizePosition()
@@ -24,10 +38,10 @@ public class Food : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if (collision.tag == "Player")
         {
             RandomizePosition();
-            snake.Grow();
+            ActivateShield();
         }
     }
 }

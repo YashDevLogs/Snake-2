@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Food
+  - Obstacle
+  - Shield
+  - SnakeBody
+  - Score
+  - Speed
   layers:
   - Default
   - TransparentFX
