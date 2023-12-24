@@ -238,7 +238,7 @@ public class Snake : MonoBehaviour
         {
             Debug.Log("Score Obj has been hit");
             Destroy(collision.gameObject);
-            RandomizePosition();
+           
             ActivateScoreBoost();
           
         }
@@ -247,7 +247,7 @@ public class Snake : MonoBehaviour
         {
             Debug.Log("Speed Obj has been hit");
             Destroy(collision.gameObject); ;
-            RandomizePosition();
+         
             ActivateSpeedUp();
             
         }
@@ -255,7 +255,7 @@ public class Snake : MonoBehaviour
         {
             Debug.Log("Shield obj has been hit");
             Destroy(collision.gameObject);
-            RandomizePosition();
+          
             ActivateShield();
 
             
