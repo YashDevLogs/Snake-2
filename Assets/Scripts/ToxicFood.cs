@@ -6,6 +6,7 @@ public class ToxicFood : MonoBehaviour
 {
     public BoxCollider2D gridArea;
     public Snake snake;
+    public Snake snake2;
 
     private void Start()
     {
@@ -27,6 +28,11 @@ public class ToxicFood : MonoBehaviour
         {
             RandomizePosition();
             snake.ReduceSize();
+        }
+        if (collision.tag == "Player2")
+        {
+            RandomizePosition();
+            snake2.ReduceSize();
         }
     }
 }

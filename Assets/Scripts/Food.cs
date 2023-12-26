@@ -1,15 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Food : MonoBehaviour
 {
     public BoxCollider2D gridArea;
     public Snake snake;
+    public Snake snake2;
+
 
     private void Start()
     {
         RandomizePosition();
+
     }
 
     private void RandomizePosition()
@@ -21,12 +23,21 @@ public class Food : MonoBehaviour
         this.transform.position = new Vector3(Mathf.Round(x), Mathf.Round(y), 0.0f);
     }
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if (collision.tag == "Player")
         {
             RandomizePosition();
             snake.Grow();
+
+
+        }
+        if (collision.tag == "Player2")
+        {
+            RandomizePosition();
+            snake2.Grow();
+
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Snake : MonoBehaviour
 {
@@ -13,7 +14,8 @@ public class Snake : MonoBehaviour
     public PowerUp powerUpPrefabSpeedUp;
     public BoxCollider2D gridArea;
     public ScoreController score;
-
+    public GameObject GameOverPanel;
+    private bool isGameOver = false;
 
 
     public float speed = 1.0f;
@@ -35,30 +37,63 @@ public class Snake : MonoBehaviour
 
     private void Update()
     {
-
             // Check for power-up activation cooldown
             if (Time.time > nextPowerUpTime)
             {
             SpawnPowerUp();
             nextPowerUpTime = Time.time + Random.Range(10.0f, 20.0f);
             }
-
+        if(tag == "Player") { 
+              if (isGameOver == true)
+              {
+            return;
+               }
+        else { 
 
             if (Input.GetKeyDown(KeyCode.W) && _direction != Vector2.down)
-        {
-            _direction = Vector2.up;
+            {
+                _direction = Vector2.up;
+            }
+            else if (Input.GetKeyDown(KeyCode.S) && _direction != Vector2.up)
+            {
+                _direction = Vector2.down;
+            }
+            else if (Input.GetKeyDown(KeyCode.A) && _direction != Vector2.right)
+            {
+                _direction = Vector2.left;
+            }
+            else if (Input.GetKeyDown(KeyCode.D) && _direction != Vector2.left)
+            {
+                _direction = Vector2.right;
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.S) && _direction != Vector2.up)
-        {
-            _direction = Vector2.down;
         }
-        else if (Input.GetKeyDown(KeyCode.A) && _direction != Vector2.right)
+
+        if (tag == "Player2")
         {
-            _direction = Vector2.left;
-        }
-        else if (Input.GetKeyDown(KeyCode.D) && _direction != Vector2.left)
-        {
-            _direction = Vector2.right;
+            if (isGameOver == true)
+            {
+                return;
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.UpArrow) && _direction != Vector2.down)
+                {
+                    _direction = Vector2.up;
+                }
+                else if (Input.GetKeyDown(KeyCode.DownArrow) && _direction != Vector2.up)
+                {
+                    _direction = Vector2.down;
+                }
+                else if (Input.GetKeyDown(KeyCode.LeftArrow) && _direction != Vector2.right)
+                {
+                    _direction = Vector2.left;
+                }
+                else if (Input.GetKeyDown(KeyCode.RightArrow) && _direction != Vector2.left)
+                {
+                    _direction = Vector2.right;
+                }
+            }
         }
     }
 
@@ -67,7 +102,6 @@ public class Snake : MonoBehaviour
         Move();
         CheckWrap();
     }
-
 
     private void Move()
     {
@@ -84,8 +118,6 @@ public class Snake : MonoBehaviour
             0.0f
         );
     }
-
-
     private void CheckWrap()
     {
         Vector3 position = this.transform.position;
@@ -116,9 +148,6 @@ public class Snake : MonoBehaviour
         this.transform.position = position;
     }
 
-
-
-
     public void Grow()
     {
         Transform segment = Instantiate(this.segmentPrefab);
@@ -139,19 +168,24 @@ public class Snake : MonoBehaviour
         }
     }
 
-    private void ResetState()
+    public void LoadMenu()
     {
-         for(int i = 1; i < _segments.Count; i++)
-        {
-            Destroy(_segments[i].gameObject);
-        }
-
-        _segments.Clear();
-        _segments.Add(this.transform);
-
-        this.transform.position = Vector3.zero;
+        SceneManager.LoadScene(0);
+    }
+    public void PlaySinglePlayer()
+    {
+       SceneManager.LoadScene(1);
+    }
+    public void PlayCoop()
+    {
+        SceneManager.LoadScene(2);
     }
 
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Debug.Log("Level Restarted");
+    }
 
     private void SpawnPowerUp()
     {
@@ -229,14 +263,6 @@ public class Snake : MonoBehaviour
         isSpeedUpActive = false;
     }
 
-    private void RandomizePosition()
-    {
-        Bounds bounds = this.gridArea.bounds;
-        float x = Random.Range(bounds.min.x, bounds.max.x);
-        float y = Random.Range(bounds.min.y, bounds.max.y);
-
-        this.transform.position = new Vector3(Mathf.Round(x), Mathf.Round(y), 0.0f);
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -245,7 +271,8 @@ public class Snake : MonoBehaviour
             if (!isShieldActive)
             {
                 Debug.Log("Obstacle has been hit");
-                ResetState();
+                GameOverPanel.SetActive(true);
+                isGameOver = true;  
             }
         }
         else if (collision.tag == "Score")
@@ -253,7 +280,6 @@ public class Snake : MonoBehaviour
             Debug.Log("Score Obj has been hit");
             Destroy(collision.gameObject);
             ActivateScoreBoost();
-
         }
 
         else if (collision.tag == "Speed")
@@ -261,7 +287,6 @@ public class Snake : MonoBehaviour
             Debug.Log("Speed Obj has been hit");
             Destroy(collision.gameObject); ;
             ActivateSpeedUp();
-
         }
         else if (collision.tag == "Shield")
         {
@@ -282,9 +307,12 @@ public class Snake : MonoBehaviour
         }
             if(collision.tag == "ToxicFood")
             {
-                score.DecreaseScore(100);
+                score.DecreaseScore(50);
             }
-        
+    }
 
+    public void OnApplicationQuit()
+    {
+        Application.Quit();
     }
 }

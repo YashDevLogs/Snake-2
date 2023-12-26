@@ -11,6 +11,7 @@ TagManager:
   - Score
   - Speed
   - ToxicFood
+  - Player2
   layers:
   - Default
   - TransparentFX

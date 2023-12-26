@@ -8,6 +8,7 @@ public class Shield : MonoBehaviour
     public bool isShieldActive;
     private float powerUpDuration = 7f;
     public Snake snake;
+    public Snake snake2;
     private void Start()
     {
         RandomizePosition();
@@ -39,6 +40,11 @@ public class Shield : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
+        {
+            RandomizePosition();
+            ActivateShield();
+        }
+        if (collision.tag == "Player2")
         {
             RandomizePosition();
             ActivateShield();
