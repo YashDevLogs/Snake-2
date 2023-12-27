@@ -1,6 +1,6 @@
 # Snake Game
 
-https://clipchamp.com/watch/3poJlhG5WR7
+[https://clipchamp.com/watch/3poJlhG5WR7](https://github.com/YashDevLogs/Snake-2/assets/91522919/ef48c8b9-50df-497a-bfed-52128cbc29b7)
 
 ## Overview
 
