@@ -14,7 +14,10 @@ public class Snake : MonoBehaviour
     public PowerUp powerUpPrefabSpeedUp;
     public BoxCollider2D gridArea;
     public ScoreController score;
+    public GameObject GamePausePanel;
     public GameObject GameOverPanel;
+    public GameObject P1GameWon;
+    public GameObject P2GameWon;
     private bool isGameOver = false;
 
 
@@ -37,8 +40,14 @@ public class Snake : MonoBehaviour
 
     private void Update()
     {
-            // Check for power-up activation cooldown
-            if (Time.time > nextPowerUpTime)
+        if(Input.GetKeyDown(KeyCode.Escape))
+            {
+            Pause();
+            GamePausePanel.SetActive(true);
+        }
+
+        // Check for power-up activation cooldown
+        if (Time.time > nextPowerUpTime)
             {
             SpawnPowerUp();
             nextPowerUpTime = Time.time + Random.Range(10.0f, 20.0f);
@@ -309,10 +318,36 @@ public class Snake : MonoBehaviour
             {
                 score.DecreaseScore(50);
             }
+
+        if (collision.tag == "Player")
+        {
+            GameOverPanel.SetActive(false);
+            P1GameWon.SetActive(true);
+        } 
+        else if (collision.tag == "Player2")
+        {
+            GameOverPanel.SetActive(false);
+            P2GameWon.SetActive(true);
+        }
     }
 
     public void OnApplicationQuit()
     {
         Application.Quit();
+    }
+
+    private void Pause()
+    {
+        Time.timeScale = 0f; // Set time scale to 0 to pause the game
+        // Add any additional pause-related logic here
+        Debug.Log("Game Paused");
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1f; // Set time scale back to 1 to resume the game
+        // Add any additional resume-related logic here
+        Debug.Log("Game Resumed");
+        GamePausePanel.SetActive(false);
     }
 }
