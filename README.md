@@ -28,6 +28,12 @@ The objective of the game is to control the snake, eat food, and avoid obstacles
 - Randomized food and power-up spawns
 - Game Over screen
 - Pause and Resume functionality
+- Pickup Types:-
+      - Red: Food ( Gives 100 points).
+      - White: Toxic Food ( Reduces 50 points).
+      - Yellow: Speed Boost ( Gives 2X Speed Boost).
+      - Blue: Shield ( Protection from hitting any object which can cause Game Over).
+      - Orange: Score Boost ( Gives 2X score boost for picking up each Food Item).  
 
 ## Controls
 
